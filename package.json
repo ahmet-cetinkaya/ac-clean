@@ -1,0 +1,24 @@
+{
+  "name": "ac-clean",
+  "version": "1.0.0",
+  "description": "code generator for clean architecture",
+  "main": "bin/index.js",
+  "dependencies": {
+    "yargs": "^17.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "update": "npm i -g .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "clean",
+    "code",
+    "generator"
+  ],
+  "author": "Ahmet Çetinkaya <ahmetcetinkaya7@outlook.com>",
+  "license": "MIT",
+  "bin": {
+    "ac-clean": "./bin/index.js"
+  }
+}
