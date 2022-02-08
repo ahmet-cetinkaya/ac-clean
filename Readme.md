@@ -1,8 +1,8 @@
 # Install
+`cd ac-clean`
 
-cd ac-clean
-node install -g .
-
+`node install -g .`
 # Usage
-
-ac-clean -f <featureName>
+`ac-clean -f featureName`
+# Requirement
+- Nodejs
