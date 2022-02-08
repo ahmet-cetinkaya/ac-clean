@@ -1,8 +1,15 @@
 # Install
+
 `cd ac-clean`
 
-`node install -g .`
+`npm run install`
+
 # Usage
-`ac-clean -f featureName`
+
+`cd <your project features folder>`
+
+`ac-clean -f <feature name>`
+
 # Requirement
-- Nodejs
+
+- NodeJS

@@ -8,7 +8,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "update": "npm i -g .",
+    "install": "npm i -g .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

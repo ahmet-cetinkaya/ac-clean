@@ -265,12 +265,12 @@ public class GetById${upperName}Query : IRequest<${upperName}>
 {
     public int Id { get; set; }
 
-    public class GetById${upperName}ResponseHandler : IRequestHandler<GetById${upperName}Query, ${upperName}>
+    public class GetById${upperName}QueryHandler : IRequestHandler<GetById${upperName}Query, ${upperName}>
     {
         private readonly I${upperName}Repository _${lowerName}Repository;
         private readonly ${upperName}BusinessRules _${lowerName}BusinessRules;
 
-        public GetById${upperName}ResponseHandler(I${upperName}Repository ${lowerName}Repository, ${upperName}BusinessRules ${lowerName}BusinessRules)
+        public GetById${upperName}QueryHandler(I${upperName}Repository ${lowerName}Repository, ${upperName}BusinessRules ${lowerName}BusinessRules)
         {
             _${lowerName}Repository = ${lowerName}Repository;
             _${lowerName}BusinessRules = ${lowerName}BusinessRules;
@@ -310,12 +310,12 @@ public class GetList${upperName}Query : IRequest<${upperName}ListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetList${upperName}ResponseHandler : IRequestHandler<GetList${upperName}Query, ${upperName}ListModel>
+    public class GetList${upperName}QueryHandler : IRequestHandler<GetList${upperName}Query, ${upperName}ListModel>
     {
         private readonly I${upperName}Repository _${lowerName}Repository;
         private readonly IMapper _mapper;
 
-        public GetList${upperName}ResponseHandler(I${upperName}Repository ${lowerName}Repository, IMapper mapper)
+        public GetList${upperName}QueryHandler(I${upperName}Repository ${lowerName}Repository, IMapper mapper)
         {
             _${lowerName}Repository = ${lowerName}Repository;
             _mapper = mapper;
