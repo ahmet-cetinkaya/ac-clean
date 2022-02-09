@@ -17,11 +17,15 @@ const generateFeatureCommand = yargs.usage('🚀 Usage: -f <name>').option('f', 
 // Arg Selector
 if (generateFeatureCommand) generateFeature(generateFeatureCommand.feature);
 
+// Variables
+const messages = { thereIsTodos: `  \u2514 ⚠️ There is todos.` };
+
 // Generate Feature
 function generateFeature(name) {
   const featureDir = `./${upperFirstLetter(name)}s`;
-  if (fs.existsSync(featureDir)) return console.log(`❗error: ${name} feature is already exists.`);
-  console.log('Generating feature...');
+  if (fs.existsSync(featureDir))
+    return console.log(`❗error: ${name} feature folder is already exists.`);
+  console.log('🧮 Generating feature...');
 
   fs.mkdirSync(`${featureDir}`);
   generateFeatureCommands(featureDir, name);
@@ -40,7 +44,8 @@ function generateFeatureCommands(featureDir, name) {
   fs.mkdirSync(`${featureDir}/Commands/Create${upperName}`);
   fs.writeFile(
     `${featureDir}/Commands/Create${upperName}/Create${upperName}Command.cs`,
-    `using Application.Features.${upperName}s.Rules;
+    `using Application.Features.${upperName}s.Dtos;
+using Application.Features.${upperName}s.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -48,11 +53,11 @@ using MediatR;
 
 namespace Application.Features.${upperName}s.Commands.Create${upperName};
 
-public class Create${upperName}Command : IRequest<${upperName}>
+public class Create${upperName}Command : IRequest<Created${upperName}Dto>
 {
     //todo: add properties
 
-    public class Create${upperName}CommandHandler : IRequestHandler<Create${upperName}Command, ${upperName}>
+    public class Create${upperName}CommandHandler : IRequestHandler<Create${upperName}Command, Created${upperName}Dto>
     {
         private readonly I${upperName}Repository _${lowerName}Repository;
         private readonly IMapper _mapper;
@@ -66,25 +71,27 @@ public class Create${upperName}Command : IRequest<${upperName}>
             _${lowerName}BusinessRules = ${lowerName}BusinessRules;
         }
 
-        public async Task<${upperName}> Handle(Create${upperName}Command request, CancellationToken cancellationToken)
+        public async Task<Created${upperName}Dto> Handle(Create${upperName}Command request, CancellationToken cancellationToken)
         {
             ${upperName} mapped${upperName} = _mapper.Map<${upperName}>(request);
             ${upperName} created${upperName} = await _${lowerName}Repository.AddAsync(mapped${upperName});
-            return created${name};
+            Created${upperName}Dto created${upperName}Dto = _mapper.Map<Created${upperName}Dto>(created${upperName});
+            return created${upperName}Dto;
         }
     }
-}
-`,
+}`,
     err => {
       if (err) throw err;
       console.log(`✅ Create${upperName}Command is created successfully.`);
+      console.log(messages.thereIsTodos);
     }
   );
 
   fs.mkdirSync(`${featureDir}/Commands/Update${name}`);
   fs.writeFile(
     `${featureDir}/Commands/Update${upperName}/Update${upperName}Command.cs`,
-    `using Application.Features.${upperName}s.Rules;
+    `using Application.Features.${upperName}s.Dtos;
+using Application.Features.${upperName}s.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -92,12 +99,12 @@ using MediatR;
 
 namespace Application.Features.${upperName}s.Commands.Update${upperName};
 
-public class Update${upperName}Command : IRequest<${upperName}>
+public class Update${upperName}Command : IRequest<Updated${upperName}Dto>
 {
     public int Id { get; set; }
     //todo: add properties
 
-    public class Update${upperName}CommandHandler : IRequestHandler<Update${upperName}Command, ${upperName}>
+    public class Update${upperName}CommandHandler : IRequestHandler<Update${upperName}Command, Updated${upperName}Dto>
     {
         private readonly I${upperName}Repository _${lowerName}Repository;
         private readonly IMapper _mapper;
@@ -111,25 +118,27 @@ public class Update${upperName}Command : IRequest<${upperName}>
             _${lowerName}BusinessRules = ${lowerName}BusinessRules;
         }
 
-        public async Task<${upperName}> Handle(Update${upperName}Command request, CancellationToken cancellationToken)
+        public async Task<Updated${upperName}Dto> Handle(Update${upperName}Command request, CancellationToken cancellationToken)
         {
             ${upperName} mapped${upperName} = _mapper.Map<${upperName}>(request);
             ${upperName} updated${upperName} = await _${lowerName}Repository.UpdateAsync(mapped${upperName});
-            return updated${name};
+            Updated${upperName}Dto updated${upperName}Dto = _mapper.Map<Updated${upperName}Dto>(updated${upperName});
+            return updated${upperName}Dto;
         }
     }
-}
-`,
+}`,
     err => {
       if (err) throw err;
       console.log(`✅ Update${upperName}Command is created successfully.`);
+      console.log(messages.thereIsTodos);
     }
   );
 
   fs.mkdirSync(`${featureDir}/Commands/Delete${name}`);
   fs.writeFile(
     `${featureDir}/Commands/Delete${upperName}/Delete${upperName}Command.cs`,
-    `using Application.Features.${upperName}s.Rules;
+    `using Application.Features.${upperName}s.Dtos;
+using Application.Features.${upperName}s.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -137,11 +146,11 @@ using MediatR;
 
 namespace Application.Features.${upperName}s.Commands.Delete${upperName};
 
-public class Delete${upperName}Command : IRequest<${upperName}>
+public class Delete${upperName}Command : IRequest<Deleted${upperName}Dto>
 {
     public int Id { get; set; }
 
-    public class Delete${upperName}CommandHandler : IRequestHandler<Delete${upperName}Command, ${upperName}>
+    public class Delete${upperName}CommandHandler : IRequestHandler<Delete${upperName}Command, Deleted${upperName}Dto>
     {
         private readonly I${upperName}Repository _${lowerName}Repository;
         private readonly IMapper _mapper;
@@ -155,18 +164,22 @@ public class Delete${upperName}Command : IRequest<${upperName}>
             _${lowerName}BusinessRules = ${lowerName}BusinessRules;
         }
 
-        public async Task<${upperName}> Handle(Delete${upperName}Command request, CancellationToken cancellationToken)
+        public async Task<Deleted${upperName}Dto> Handle(Delete${upperName}Command request, CancellationToken cancellationToken)
         {
             await _${lowerName}BusinessRules.${upperName}IdShouldExistWhenSelected(request.Id);
 
             ${upperName} mapped${upperName} = _mapper.Map<${upperName}>(request);
             ${upperName} deleted${upperName} = await _${lowerName}Repository.DeleteAsync(mapped${upperName});
-            return deleted${name};
+            Deleted${upperName}Dto deleted${upperName}Dto = _mapper.Map<Deleted${upperName}Dto>(deleted${upperName});
+            return deleted${upperName}Dto;
         }
     }
-}
-`,
-    err => (err ? err : console.log(`✅ Delete${upperName}Command is created successfully.`))
+}`,
+    err => {
+      if (err) throw err;
+      console.log(`✅ Delete${upperName}Command is created successfully.`);
+      console.log(messages.thereIsTodos);
+    }
   );
 }
 function generateFeatureDtos(featureDir, name) {
@@ -179,13 +192,73 @@ function generateFeatureDtos(featureDir, name) {
 
 public class ${upperName}ListDto
 {
-  public int Id { get; set; }
-  //todo: add properties
-}
-`,
+    public int Id { get; set; }
+    //todo: add properties
+}`,
     err => {
       if (err) throw err;
       console.log(`✅ ${upperName}ListDto is created successfully.`);
+      console.log(messages.thereIsTodos);
+    }
+  );
+  fs.writeFile(
+    `${featureDir}/Dtos/${upperName}Dto.cs`,
+    `namespace Application.Features.${upperName}s.Dtos;
+
+public class ${upperName}Dto
+{
+    public int Id { get; set; }
+    //todo: add properties
+}`,
+    err => {
+      if (err) throw err;
+      console.log(`✅ ${upperName}Dto is created successfully.`);
+      console.log(messages.thereIsTodos);
+    }
+  );
+  fs.writeFile(
+    `${featureDir}/Dtos/Created${upperName}Dto.cs`,
+    `namespace Application.Features.${upperName}s.Dtos;
+
+public class Created${upperName}Dto
+{
+    public int Id { get; set; }
+    //todo: add properties
+}`,
+    err => {
+      if (err) throw err;
+      console.log(`✅ Created${upperName}Dto is created successfully.`);
+      console.log(messages.thereIsTodos);
+    }
+  );
+  fs.writeFile(
+    `${featureDir}/Dtos/Updated${upperName}Dto.cs`,
+    `namespace Application.Features.${upperName}s.Dtos;
+
+public class Updated${upperName}Dto
+{
+    public int Id { get; set; }
+    //todo: add properties
+}`,
+    err => {
+      if (err) throw err;
+      console.log(`✅ Updated${upperName}Dto is created successfully.`);
+      console.log(messages.thereIsTodos);
+    }
+  );
+  fs.writeFile(
+    `${featureDir}/Dtos/Deleted${upperName}Dto.cs`,
+    `namespace Application.Features.${upperName}s.Dtos;
+
+public class Deleted${upperName}Dto
+{
+    public int Id { get; set; }
+    //todo: add properties
+}`,
+    err => {
+      if (err) throw err;
+      console.log(`✅ Deleted${upperName}Dto is created successfully.`);
+      console.log(messages.thereIsTodos);
     }
   );
 }
@@ -203,8 +276,7 @@ namespace Application.Features.${upperName}s.Models;
 public class ${upperName}ListModel : BasePageableModel
 {
     public IList<${upperName}ListDto> Items { get; set; }
-}
-`,
+}`,
     err => {
       if (err) throw err;
       console.log(`✅ ${upperName}ListModel is created successfully.`);
@@ -233,13 +305,16 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         CreateMap<${upperName}, Create${upperName}Command>().ReverseMap();
+        CreateMap<${upperName}, Created${upperName}Dto>().ReverseMap();
         CreateMap<${upperName}, Update${upperName}Command>().ReverseMap();
+        CreateMap<${upperName}, Updated${upperName}Dto>().ReverseMap();
         CreateMap<${upperName}, Delete${upperName}Command>().ReverseMap();
+        CreateMap<${upperName}, Deleted${upperName}Dto>().ReverseMap();
+        CreateMap<${upperName}, ${upperName}Dto>().ReverseMap();
         CreateMap<${upperName}, ${upperName}ListDto>().ReverseMap();
         CreateMap<IPaginate<${upperName}>, ${upperName}ListModel>().ReverseMap();
     }
-}
-`,
+}`,
     err => {
       if (err) throw err;
       console.log(`✅ MappingProfiles is created successfully.`);
@@ -254,39 +329,44 @@ function generateFeatureQueries(featureDir, name) {
   fs.mkdirSync(`${featureDir}/Queries/GetById${upperName}`);
   fs.writeFile(
     `${featureDir}/Queries/GetById${upperName}/GetById${upperName}Query.cs`,
-    `using Application.Features.${upperName}s.Rules;
+    `using Application.Features.${upperName}s.Dtos;
+using Application.Features.${upperName}s.Rules;
 using Application.Services.Repositories;
+using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.${upperName}s.Queries.GetById${upperName};
 
-public class GetById${upperName}Query : IRequest<${upperName}>
+public class GetById${upperName}Query : IRequest<${upperName}Dto>
 {
     public int Id { get; set; }
 
-    public class GetById${upperName}QueryHandler : IRequestHandler<GetById${upperName}Query, ${upperName}>
+    public class GetById${upperName}QueryHandler : IRequestHandler<GetById${upperName}Query, ${upperName}Dto>
     {
         private readonly I${upperName}Repository _${lowerName}Repository;
+        private readonly IMapper _mapper;
         private readonly ${upperName}BusinessRules _${lowerName}BusinessRules;
 
-        public GetById${upperName}QueryHandler(I${upperName}Repository ${lowerName}Repository, ${upperName}BusinessRules ${lowerName}BusinessRules)
+        public GetById${upperName}QueryHandler(I${upperName}Repository ${lowerName}Repository, IMapper mapper, 
+                                            ${upperName}BusinessRules ${lowerName}BusinessRules)
         {
             _${lowerName}Repository = ${lowerName}Repository;
+            _mapper = mapper;
             _${lowerName}BusinessRules = ${lowerName}BusinessRules;
         }
 
 
-        public async Task<${upperName}> Handle(GetById${upperName}Query request, CancellationToken cancellationToken)
+        public async Task<${upperName}Dto> Handle(GetById${upperName}Query request, CancellationToken cancellationToken)
         {
             await _${lowerName}BusinessRules.${upperName}IdShouldExistWhenSelected(request.Id);
 
             ${upperName}? ${lowerName} = await _${lowerName}Repository.GetAsync(b => b.Id == request.Id);
-            return ${lowerName};
+            ${upperName}Dto ${lowerName}Dto = _mapper.Map<${upperName}Dto>(${lowerName});
+            return ${lowerName}Dto;
         }
     }
-}
-`,
+}`,
     err => {
       if (err) throw err;
       console.log(`✅ GetById${upperName}Query is created successfully.`);
@@ -345,7 +425,6 @@ function generateFeatureRules(featureDir, name) {
     `${featureDir}/Rules/${upperName}BusinessRules.cs`,
     `using Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
-using Core.Persistence.Paging;
 using Domain.Entities;
 
 namespace Application.Features.${upperName}s.Rules;
@@ -364,8 +443,7 @@ public class ${upperName}BusinessRules
         ${upperName}? result = await _${lowerName}Repository.GetAsync(b => b.Id == id);
         if (result == null) throw new BusinessException("${upperName} not exists.");
     }
-}
-`,
+}`,
     err => {
       if (err) throw err;
       console.log(`✅ ${upperName}BusinessRules is created successfully.`);
